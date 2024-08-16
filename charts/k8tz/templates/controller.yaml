@@ -42,6 +42,11 @@ spec:
         {{- include "k8tz.podSecurityContext" . | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          {{- if .Values.timezone }}
+          env:
+          - name: TZ
+            value: {{ .Values.timezone | quote }}
+          {{- end }}
           args:
           - "webhook"
           - "--timezone"
@@ -83,7 +88,7 @@ spec:
           {{- end}}
           securityContext:
             {{- include "k8tz.securityContext" . | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{- include "k8tz.image" . }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: tls

@@ -1,25 +1,31 @@
-apiVersion: v2
-name: k8tz
-description: Kubernetes admission controller to inject timezones into Pods and CronJobs
-version: 0.16.2
-appVersion: "0.16.2"
-icon: https://github.com/k8tz/k8tz/raw/master/assets/k8tz-icon-transparent.png
-home: http://k8tz.io
-sources:
-  - https://github.com/k8tz/k8tz
-keywords:
-  - timezone
-  - timezones
-  - admission
-  - controller
-  - tzdata
-  - tzdb
 annotations:
   artifacthub.io/changes: |
     - kind: "fixed"
       description: "Fix volumeMounts volume name not found error when using custom initContainer name"
+  artifacthub.io/containsSecurityUpdates: "false"
+  artifacthub.io/license: Apache-2.0
   artifacthub.io/links: |
     - name: "source"
       url: "https://github.com/k8tz/k8tz"
-  artifacthub.io/containsSecurityUpdates: "false"
-  artifacthub.io/license: "Apache-2.0"
+apiVersion: v2
+appVersion: 0.16.2
+dependencies:
+- name: common
+  repository: oci://harbor.artsland.space/mirrors/registry-1.docker.io/bitnamicharts
+  tags:
+  - bitnami-common
+  version: 2.x.x
+description: Kubernetes admission controller to inject timezones into Pods and CronJobs
+home: http://k8tz.io
+icon: https://github.com/k8tz/k8tz/raw/master/assets/k8tz-icon-transparent.png
+keywords:
+- timezone
+- timezones
+- admission
+- controller
+- tzdata
+- tzdb
+name: k8tz
+sources:
+- https://github.com/k8tz/k8tz
+version: 0.16.2-mod

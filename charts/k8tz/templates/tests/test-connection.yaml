@@ -10,6 +10,6 @@ metadata:
 spec:
   containers:
     - name: curl
-      image: curlimages/curl:7.78.0
+      image: "{{- include "k8tz.test.image" . }}"
       args: ['--insecure', 'https://{{ include "k8tz.serviceName" . }}:{{ .Values.service.port }}/health']
   restartPolicy: Never

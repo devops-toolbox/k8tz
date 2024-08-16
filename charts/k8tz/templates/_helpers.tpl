@@ -157,3 +157,25 @@ namespace by default.
 {{ toYaml .Values.webhook.ignoredNamespaces }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Return the k8tz test Image name
+*/}}
+{{- define "k8tz.test.image" -}}
+{{ if .Values.global.imageRegistry }}
+{{- printf "%s/%s:%s" .Values.global.imageRegistry .Values.test.image.repository .Values.test.image.tag -}}
+{{ else }}
+{{- printf "%s:%s" .Values.test.image.repository .Values.test.image.tag -}}
+{{- end -}}
+{{- end -}}
+{{/*
+Return the k8tz Image name
+*/}}
+{{- define "k8tz.image" -}}
+{{ if .Values.global.imageRegistry }}
+{{- printf "%s/%s:%s" .Values.global.imageRegistry .Values.image.repository .Values.image.tag -}}
+{{ else }}
+{{- printf "%s:%s" .Values.image.repository .Values.image.tag -}}
+{{- end -}}
+{{- end -}}
