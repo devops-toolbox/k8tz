@@ -42,11 +42,6 @@ spec:
         {{- include "k8tz.podSecurityContext" . | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- if .Values.timezone }}
-          env:
-          - name: TZ
-            value: {{ .Values.timezone | quote }}
-          {{- end }}
           args:
           - "webhook"
           - "--timezone"
@@ -56,7 +51,7 @@ spec:
           - "--inject={{ .Values.injectAll }}"
           - "--container-name={{ .Values.injectedInitContainerName }}"
           - "--bootstrap-image"
-          - "{{- include "k8tz.image" . }}"
+          - "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           {{- if .Values.verbose }}
           - "--verbose"
           - "--bootstrap-verbose"
@@ -88,7 +83,7 @@ spec:
           {{- end}}
           securityContext:
             {{- include "k8tz.securityContext" . | nindent 12 }}
-          image: "{{- include "k8tz.image" . }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: tls
@@ -129,7 +124,7 @@ spec:
           - {{ include "k8tz.namespace" . }}
           securityContext:
             {{- include "k8tz.securityContext" . | nindent 12 }}
-          image: "{{- include "k8tz.image" . }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: tls

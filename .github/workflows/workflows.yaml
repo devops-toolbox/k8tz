@@ -1,0 +1,11 @@
+name: workflows for k8tz
+on:
+  - push
+  - workflow_dispatch
+jobs:
+  image:
+    uses: ./.github/workflows/image.yml
+    secrets: inherit
+  chart:
+    uses: ./.github/workflows/chart.yml
+    secrets: inherit
