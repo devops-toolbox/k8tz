@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM harbor.artsland.space/proxy/library/alpine:3.13 AS tzdata
+FROM alpine:3.13 AS tzdata
 
 ARG tzdbversion=2024a
 RUN \
@@ -23,15 +23,15 @@ RUN \
     cd tzdb && \
     mkdir build && \
     make TOPDIR=build install
-FROM harbor.artsland.space/proxy/library/golang:1.22.6 AS build
+FROM golang:1.22.6 AS build
 ENV CGO_ENABLED=0
 WORKDIR /build
 COPY ./k8tz .
-RUN go env -w GO111MODULE=on
-RUN go env -w GOPROXY=https://goproxy.cn,direct
+# RUN go env -w GO111MODULE=on
+# RUN go env -w GOPROXY=https://goproxy.cn,direct
 RUN make build
 
-FROM harbor.artsland.space/proxy/library/alpine:3.13
+FROM alpine:3.13
 RUN apk add --no-cache tzdata
 COPY --from=tzdata /tzdb/build/usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=build /build/build/k8tz /opt/k8tz/bin/k8tz
